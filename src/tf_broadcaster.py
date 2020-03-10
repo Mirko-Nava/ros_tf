@@ -55,11 +55,10 @@ class TfBroadcaster:
         # append link to the list
         self.links.append(link)
 
-        return 'link %s added' % name
-
     def broadcast(self):
         """Broadcasts pose until the node is terminated."""
 
+        # create link structure
         self.add_link('link1', 1)
         self.add_link('end_effector', .5)
 
