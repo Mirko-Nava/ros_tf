@@ -23,33 +23,37 @@ class TfBroadcaster:
         # set node update frequency in Hz
         self.rate = rospy.Rate(10)
 
-        tf1 = {
-            'name': 'tf1',
-            'translation': np.array([0., 0., 0.]),
-            'rotation': Rotation.from_euler('xyz', [0., 0., 0.], degrees=True),
+        # list of transformations
+        self.tfs = [{
+            'name': 'base',
+            'translation': np.array([0., 0., .2]),
+            'rotation': Rotation.from_euler('xyz', [0., 20., 0.], degrees=True),
             'parent': 'world'
-        }
-
-        tf2 = {
+        }, {
+            'name': 'tf1',
+            'translation': np.array([0., 0., 1.]),
+            'rotation': Rotation.from_euler('xyz', [0., 20., 0.], degrees=True),
+            'parent': 'base'
+        }, {
             'name': 'tf2',
-            'translation': np.array([0., 0., 0.]),
+            'translation': np.array([1., 0., 0.]),
             'rotation': Rotation.from_euler('xyz', [0., 0., 0.], degrees=True),
             'parent': 'tf1'
-        }
+        }]
 
     def broadcast(self):
         """Broadcasts pose until the node is terminated."""
 
         while not rospy.is_shutdown():
 
-            # send tf messages for each link
-            for link in self.links:
+            # send tf messages for each transform
+            for tf in self.tfs:
                 self.tf_broadcaster.sendTransform(
-                    link['translation'],
-                    link['rotation'].as_quat(),
+                    tf['translation'],
+                    tf['rotation'].as_quat(),
                     rospy.Time.now(),
-                    link['name'],
-                    link['parent']
+                    tf['name'],
+                    tf['parent']
                 )
 
             # sleep until next step
