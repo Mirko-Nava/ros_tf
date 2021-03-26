@@ -46,6 +46,13 @@ class TfBroadcaster:
 
         while not rospy.is_shutdown():
 
+            # animate the robot by changing the rotation based on the time
+            # self.tfs[1]['rotation'] = Rotation.from_euler(
+            #     'xyz', 
+            #     [0.,  10 * (2 + np.sin(rospy.Time.now().to_nsec() / 1e9)), 0.],
+            #     degrees=True
+            # )
+
             # send tf messages for each transform
             for tf in self.tfs:
                 self.tf_broadcaster.sendTransform(
