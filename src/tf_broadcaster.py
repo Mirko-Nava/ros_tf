@@ -48,7 +48,7 @@ class TfBroadcaster:
 
             # animate the robot by changing the rotation based on the time
             # self.tfs[1]['rotation'] = Rotation.from_euler(
-            #     'xyz', 
+            #     'xyz',
             #     [0.,  10 * (2 + np.sin(rospy.Time.now().to_nsec() / 1e9)), 0.],
             #     degrees=True
             # )
